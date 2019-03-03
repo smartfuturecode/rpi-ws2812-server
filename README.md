@@ -5,7 +5,7 @@ This is a small program for driving the WS281x (a.k.a. [NeoPixel](https://www.sp
 On the raspberry you open a terminal window and type following commands:
 * `sudo apt-get update`
 * `sudo apt-get install gcc make git libjpeg-dev libpng-dev`
-* `git clone https://github.com/tom-2015/rpi-ws2812-server.git`
+* `git clone https://github.com/smartfuturecode/rpi-ws2812-server.git`
 * `cd rpi-ws2812-server`
 * `make`
 * `sudo chmod +x ws2812svr`
@@ -105,10 +105,10 @@ rainbow
 * `fill` command fills number of leds with a color value
 ```
 fill  
-    <channel>,          #channel to fill leds with color (default 1)  
-    <RRGGBB>,           #color to fill (default FF0000)  
-    <start>,            #at which led should we start (default is 0)  
-    <len>               #number of leds to fill with the given color after start (default all leds)  
+    <channel>,          	#channel to fill leds with color (default 1)  
+    <RRGGBB>,           	#color to fill (default FF0000)  
+    <start>,          		#at which led should we start (default is 0)  
+    <len>               	#number of leds to fill with the given color after start (default all leds)  
 	<OR,AND,XOR,NOT,=>	#bitwise operator to execute on OLD and NEW color, default = copies new color to output
 ```
 
@@ -122,7 +122,7 @@ delay
 ```
 	brightness 
 		<channel>,		 #channel number to change brightness (default 1)
-		<brightness>,	 #brightness to set (0-255, default 255)
+		<brightness>,	 	#brightness to set (0-255, default 255)
 		<start>,		 #start at this led number (default 0)
 		<len>			 #number of leds to change starting at start (default led count of channel)
 ```
@@ -130,76 +130,76 @@ delay
 * `fade` command changes the brightness over time
 ```
 	fade 
-		<channel>,						 #channel to fade 
+		<channel>,					 #channel to fade 
 		<start_brightness>,				 #start brightness (default 0)
-		<end_brightness>,			     #end brightness (default 255)
-		<delay ms>,						 #delay in ms
-		<step>,							 #step to increase / decrease brightness every delay untill end_brightness is reached
+		<end_brightness>,				 #end brightness (default 255)
+		<delay ms>,					 #delay in ms
+		<step>,						 #step to increase / decrease brightness every delay untill end_brightness is reached
 		<start_led>,					 #start led
-		<len>							 #number of leds to change starting at start (default is channel count)
+		<len>						 #number of leds to change starting at start (default is channel count)
 ```
 
 * `gradient` command makes a smooth change of color or brightness level in a channel
 ```
 	gradient
-		<channel>,						 #channel number to change
-		<RGBWL>,						 #which color component to change, R = red, G = green, B = blue, W = white and L = brightness level 
+		<channel>,					 #channel number to change
+		<RGBWL>,					 #which color component to change, R = red, G = green, B = blue, W = white and L = brightness level 
 		<start_level>,					 #start at color level (0-255) default is 0
 		<end_level>, 					 #end at color level (0-255) default is 255
 		<start_led>,					 #start at led number (default is 0)
-		<len>							 #number of leds to change (default is channel count)
+		<len>						 #number of leds to change (default is channel count)
 ```
 
 * `random` command can create a random color
 ```
 	random 
-		<channel>,						#channel number to change
-		<start>,						#start at this led
-		<len>,							#number of leds to fill with a random color, default is channel count
-		<RGBWL>							#color to use in random can be R = red, G = green, B = blue, W = White, L = brightness also combination is possible like RGBW or RL
+		<channel>,					#channel number to change
+		<start>,					#start at this led
+		<len>,						#number of leds to fill with a random color, default is channel count
+		<RGBWL>						#color to use in random can be R = red, G = green, B = blue, W = White, L = brightness also combination is possible like RGBW or RL
 ```
 
 * `readjpg` command can read the pixels from a JPEG file and fill them into the LEDs of a channel
 ```
     readjpg
     	<channel>,						#channel number to load pixels to
-		<FILE>,							#file location of the JPG without any "" cannot contain a ,
-		<start>,						#start position, start loading at this LED in channel (default 0)
-		<len>,							#load this ammount of pixel/LEDs	(default is channel count or led count)
-		<offset>,						#start at pixel offset in JPG file (default is 0)
+		<FILE>,						#file location of the JPG without any "" cannot contain a ,
+		<start>,					#start position, start loading at this LED in channel (default 0)
+		<len>,						#load this ammount of pixel/LEDs	(default is channel count or led count)
+		<offset>,					#start at pixel offset in JPG file (default is 0)
 		<OR AND XOR NOT =>				#operator to use, use NOT to reverse image (default is =)
 ```
 
 * `readpng` command can read the pixels from a PNG file and fill them into the LEDs of a channel
 ```
 	readpng
-		<channel>,						#channel number to load pixels to
-		<FILE>,							#file location of the PNG file without any "" cannot contain a ,
+		<channel>,					#channel number to load pixels to
+		<FILE>,						#file location of the PNG file without any "" cannot contain a ,
 		<BACKCOLOR>,					#the color to use for background in case of a transparent image 
-										#(default is the PNG image backcolor = P), if BACKCOLOR = W the alpha channel will be used for the W in RGBW LED strips
-		<start>,						#start position, start loading at this LED in channel (default 0)
-		<len>,							#load this ammount of pixel/LEDs	(default is channel count or led count)
-		<offset>,						#start at pixel offset in JPG file (default is 0)
+								#(default is the PNG image backcolor = P), if BACKCOLOR = W the alpha channel will be used for the W in RGBW LED strips
+		<start>,					#start position, start loading at this LED in channel (default 0)
+		<len>,						#load this ammount of pixel/LEDs	(default is channel count or led count)
+		<offset>,					#start at pixel offset in JPG file (default is 0)
 		<OR AND XOR =>					#operator to use, use NOT to reverse image (default is =)
 ```
 
 * `blink` command makes a group of leds blink between 2 given colors
 ```
 	blink
-		<channel>,						#channel number to change
-		<color1>,						#first color to use
-		<color2>,						#second color
-		<delay>,						#delay in ms between change from color1 to color2
+		<channel>,					#channel number to change
+		<color1>,					#first color to use
+		<color2>,					#second color
+		<delay>,					#delay in ms between change from color1 to color2
 		<blink_count>,					#number of changes between color1 and color2
-		<startled>,						#start at this led position
-		<len>							#number of LEDs to blink starting at startled
+		<startled>,					#start at this led position
+		<len>						#number of LEDs to blink starting at startled
 ```
 
 * `gpio` command set state of gpio
 ```
 gpio  
     <gpio>,         	#name of gpio to switch 
-    <state>        		#off(=0) or on(=1)
+    <state>        	#0 (=off) or 1(=on)
 ```
 
 # Special keywords
