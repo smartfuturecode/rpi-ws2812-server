@@ -14,6 +14,7 @@
 #include <pthread.h>
 #include <ctype.h>
 #include "ws2811.h"
+#include "inout.h"
 
 #define DEFAULT_DEVICE_FILE "/dev/ws281x"
 #define DEFAULT_COMMAND_LINE_SIZE 1024
