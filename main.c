@@ -14,7 +14,6 @@
 #include <pthread.h>
 #include <ctype.h>
 #include "ws2811.h"
-#include "inout.h"
 
 #define DEFAULT_DEVICE_FILE "/dev/ws281x"
 #define DEFAULT_COMMAND_LINE_SIZE 1024
@@ -34,6 +33,10 @@
 //make PNG=0 JPEG=0
 //#define USE_JPEG 1
 //#define USE_PNG 1
+
+#ifdef USE_JPEG
+#include <wiringPi.h>
+#endif
 
 #ifdef USE_JPEG
 	#include "jpeglib.h"
@@ -435,8 +438,10 @@ void print_settings(){
     }
 }
 
+#ifdef USE_WIRINGPI
+
 //switches the state of a certain gpio
-//gpio <gpio>,<state>
+//gpio <pin>,<state>
 void gpio(char * args){
 	char value[MAX_VAL_LEN];
     char op=0;
@@ -450,70 +455,31 @@ void gpio(char * args){
 			args = read_val(args, value, MAX_VAL_LEN);
 			state = atoi(value);
 		}
-		/*if (*args!=0){
-			args = read_val(args, value, MAX_VAL_LEN);
-			if (strlen(value)>=6){
-                if (is_valid_channel_number(channel)) read_color(value, & fill_color, ledstring.channel[channel].color_size);
-			}else{
-				printf("Invalid color\n");
-			}
-			if (*args!=0){
-				args = read_val(args, value, MAX_VAL_LEN);
-				start = atoi(value);
-				if (*args!=0){
-					args = read_val(args, value, MAX_VAL_LEN);
-					len = atoi(value);
-                    if (*args!=0){
-                        args = read_val(args, value, MAX_VAL_LEN);
-                        if (strcmp(value, "OR")==0) op=1;
-                        else if (strcmp(value, "AND")==0) op=2;
-                        else if (strcmp(value, "XOR")==0) op=3;
-                        else if (strcmp(value, "NOT")==0) op=4;
-                        else if (strcmp(value, "=")==0) op=0;
-                    }
-				}
-			}
-		}*/
 	}
 
-	if (1/*valid gpio and state*/){
+	if (state==0 || state ==1/*valid gpio */){
         //if (start<0 || start>=ledstring.channel[channel].count) start=0;
         //if (len<=0 || (start+len)>ledstring.channel[channel].count) len=ledstring.channel[channel].count-start;
 
         if (debug) printf("gpio %d,%d\n", gpio, state);
 
-        map_peripheral(&gpio);
-        output_GPIO(10); /* set the pin as output */
-        if(state==0)
-        	low_GPIO(10); /* set the pin low */
-        else
-        	high_GPIO(10); /* set the pin high */
+        digitalWrite(gpio,state)
 
-        /*ws2811_led_t * leds = ledstring.channel[channel].leds;
-        unsigned int i;
-        for (i=start;i<start+len;i++){
-            switch (op){
-                case 0:
-                    leds[i].color=fill_color;
-                    break;
-                case 1:
-                    leds[i].color|=fill_color;
-                    break;
-                case 2:
-                    leds[i].color&=fill_color;
-                    break;
-                case 3:
-                    leds[i].color^=fill_color;
-                    break;
-                case 4:
-                    leds[i].color=~leds[i].color;
-                    break;
-            }
-        }*/
     }else{
         fprintf(stderr,"Invalid gpio or state\n");
     }
 }
+
+//initializes wiringPi
+void init_wiringPi(){
+
+    if (debug) printf("Init wiringPi\n");
+    ws2811_return_t ret;
+    if (wiringPiSetup() == -1){
+        fprintf(stderr, "wiringPiSetup failed\n";
+    }
+}
+#endif
 
 //sends the buffer to the leds
 //render <channel>,0,AABBCCDDEEFF...
@@ -1626,6 +1592,9 @@ void execute_command(char * command_line){
             if (thread_running==0 && mode==MODE_TCP) init_thread(arg);
         }else if (strcmp(command, "init")==0){ //first init ammount of channels wanted
             init_channels(arg);
+			#ifdef USE_JPEG
+            init_wiringPi();
+			#endif
         }else if (strcmp(command, "setup")==0){ //setup the channels
             setup_ledstring(arg);
         }else if (strcmp(command, "settings")==0){
@@ -1667,6 +1636,10 @@ void execute_command(char * command_line){
             printf("fade <channel>,<start_brightness>,<end_brightness>,<delay ms>,<step>,<start_led>,<len>\n");
             printf("gradient <channel>,<RGBWL>,<start_level>,<end_level>,<start_led>,<len>\n");
             printf("random <channel>,<start>,<len>,<RGBWL>\n");
+            printf("blink <channel>,<color1>,<color2>,<delay>,<blink_count>,<startled>,<len>\n");
+			#ifdef USE_WIRINGPI
+            printf("gpio <pin>,<state>\n");
+			#endif
 			#ifdef USE_JPEG
 			printf("readjpg <channel>,<file>,<LED start>,<len>,<JPEG Pixel offset>,<OR,AND,XOR,NOT,=>\n");
 			#endif

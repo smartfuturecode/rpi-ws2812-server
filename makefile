@@ -14,6 +14,11 @@ ifneq (1,$(NO_JPEG))
   LINK += -ljpeg
 endif
 
+ifneq (1,$(NO_WIRINGPI))
+  CC += -DUSE_WIRINGPI
+  LINK += -lwiringPi
+endif
+
 dma.o: dma.c dma.h
 	$(CC) -c $< -o $@
 

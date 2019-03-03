@@ -4,7 +4,7 @@ This is a small program for driving the WS281x (a.k.a. [NeoPixel](https://www.sp
 # Installation
 On the raspberry you open a terminal window and type following commands:
 * `sudo apt-get update`
-* `sudo apt-get install gcc make git libjpeg-dev libpng-dev`
+* `sudo apt-get install gcc make git libjpeg-dev libpng-dev wiringpi`
 * `git clone https://github.com/smartfuturecode/rpi-ws2812-server.git`
 * `cd rpi-ws2812-server`
 * `make`
@@ -198,8 +198,8 @@ delay
 * `gpio` command set state of gpio
 ```
 gpio  
-    <gpio>,         	#name of gpio to switch 
-    <state>        	#0 (=off) or 1(=on)
+    <pin>,         	#gpio number (wiringPi: https://pinout.xyz/pinout/wiringpi) 
+    <state>        	#state could be 0 (=off) or 1(=on)
 ```
 
 # Special keywords
