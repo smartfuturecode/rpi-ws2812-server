@@ -195,6 +195,13 @@ delay
 		<len>							#number of LEDs to blink starting at startled
 ```
 
+* `test` command set state of gpio
+```
+test  
+    <gpio>,         	#name of gpio to switch 
+    <state>        		#off(=0) or on(=1)
+```
+
 # Special keywords
 You can add `do ... loop` to repeat commands when using a file or TCP connection.
 

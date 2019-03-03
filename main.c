@@ -431,6 +431,79 @@ void print_settings(){
     }
 }
 
+//switches the state of a certain gpio
+//gpio <gpio>,<state>
+void gpio(char * args){
+	char value[MAX_VAL_LEN];
+    char op=0;
+	int gpio=0,state=0,len=-1;
+	unsigned int fill_color=0;
+
+	if (args!=NULL){
+		args = read_val(args, value, MAX_VAL_LEN);
+		gpio = atoi(value);
+		if (*args!=0){
+			args = read_val(args, value, MAX_VAL_LEN);
+			state = atoi(value);
+		}
+		/*if (*args!=0){
+			args = read_val(args, value, MAX_VAL_LEN);
+			if (strlen(value)>=6){
+                if (is_valid_channel_number(channel)) read_color(value, & fill_color, ledstring.channel[channel].color_size);
+			}else{
+				printf("Invalid color\n");
+			}
+			if (*args!=0){
+				args = read_val(args, value, MAX_VAL_LEN);
+				start = atoi(value);
+				if (*args!=0){
+					args = read_val(args, value, MAX_VAL_LEN);
+					len = atoi(value);
+                    if (*args!=0){
+                        args = read_val(args, value, MAX_VAL_LEN);
+                        if (strcmp(value, "OR")==0) op=1;
+                        else if (strcmp(value, "AND")==0) op=2;
+                        else if (strcmp(value, "XOR")==0) op=3;
+                        else if (strcmp(value, "NOT")==0) op=4;
+                        else if (strcmp(value, "=")==0) op=0;
+                    }
+				}
+			}
+		}*/
+	}
+
+	if (true/*valid gpio and state*/){
+        //if (start<0 || start>=ledstring.channel[channel].count) start=0;
+        //if (len<=0 || (start+len)>ledstring.channel[channel].count) len=ledstring.channel[channel].count-start;
+
+        if (debug) printf("gpio %d,%d\n", gpio, state);
+
+        /*ws2811_led_t * leds = ledstring.channel[channel].leds;
+        unsigned int i;
+        for (i=start;i<start+len;i++){
+            switch (op){
+                case 0:
+                    leds[i].color=fill_color;
+                    break;
+                case 1:
+                    leds[i].color|=fill_color;
+                    break;
+                case 2:
+                    leds[i].color&=fill_color;
+                    break;
+                case 3:
+                    leds[i].color^=fill_color;
+                    break;
+                case 4:
+                    leds[i].color=~leds[i].color;
+                    break;
+            }
+        }*/
+    }else{
+        fprintf(stderr,"Invalid gpio or state\n");
+    }
+}
+
 //sends the buffer to the leds
 //render <channel>,0,AABBCCDDEEFF...
 //optional the colors for leds:
@@ -1516,6 +1589,8 @@ void execute_command(char * command_line){
         
         if (strcmp(command, "render")==0){
             render(arg);
+        }else if (strcmp(command, "gpio")==0){
+            fill(arg);
         }else if (strcmp(command, "rotate")==0){
             rotate(arg);
         }else if (strcmp(command, "delay")==0){
