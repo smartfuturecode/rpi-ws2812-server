@@ -460,7 +460,7 @@ void gpio(char * args){
 
         if (debug) printf("gpio %d,%d\n", gpio, state);
 
-        digitalWrite(gpio,state)
+        digitalWrite(gpio,state);
 
     }else{
         fprintf(stderr,"Invalid gpio or state\n");
