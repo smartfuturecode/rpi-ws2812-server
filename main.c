@@ -1590,7 +1590,7 @@ void execute_command(char * command_line){
         if (strcmp(command, "render")==0){
             render(arg);
         }else if (strcmp(command, "gpio")==0){
-            fill(arg);
+            gpio(arg);
         }else if (strcmp(command, "rotate")==0){
             rotate(arg);
         }else if (strcmp(command, "delay")==0){
