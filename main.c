@@ -455,12 +455,10 @@ void gpio(char * args){
 	}
 
 	if (state==0 || state ==1/*valid gpio */){
-        //if (start<0 || start>=ledstring.channel[channel].count) start=0;
-        //if (len<=0 || (start+len)>ledstring.channel[channel].count) len=ledstring.channel[channel].count-start;
+		state = (state==0?1:0);
+           	if (debug) printf("gpio %d,%d\n", gpio, state);
 
-        if (debug) printf("gpio %d,%d\n", gpio, state);
-
-        digitalWrite(gpio,state);
+        	digitalWrite(gpio,state);
 
     }else{
         fprintf(stderr,"Invalid gpio or state\n");
