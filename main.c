@@ -128,9 +128,6 @@ ws2811_t ledstring;
 
 void process_character(char c);
 
-//for gpio
-struct bcm2835_peripheral gpio;
-
 //handles exit of program with CTRL+C
 static void ctrl_c_handler(int signum){
 	exit_program=1;
@@ -476,7 +473,7 @@ void init_wiringPi(){
     if (debug) printf("Init wiringPi\n");
     ws2811_return_t ret;
     if (wiringPiSetup() == -1){
-        fprintf(stderr, "wiringPiSetup failed\n";
+        fprintf(stderr, "wiringPiSetup failed\n");
     }
 }
 #endif
