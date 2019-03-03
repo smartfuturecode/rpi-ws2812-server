@@ -125,6 +125,9 @@ ws2811_t ledstring;
 
 void process_character(char c);
 
+//for gpio
+struct bcm2835_peripheral gpio;
+
 //handles exit of program with CTRL+C
 static void ctrl_c_handler(int signum){
 	exit_program=1;
@@ -478,6 +481,13 @@ void gpio(char * args){
         //if (len<=0 || (start+len)>ledstring.channel[channel].count) len=ledstring.channel[channel].count-start;
 
         if (debug) printf("gpio %d,%d\n", gpio, state);
+
+        map_peripheral(&gpio);
+        output_GPIO(10); /* set the pin as output */
+        if(state==0)
+        	low_GPIO(10); /* set the pin low */
+        else
+        	high_GPIO(10) /* set the pin high */
 
         /*ws2811_led_t * leds = ledstring.channel[channel].leds;
         unsigned int i;
