@@ -487,7 +487,7 @@ void gpio(char * args){
         if(state==0)
         	low_GPIO(10); /* set the pin low */
         else
-        	high_GPIO(10) /* set the pin high */
+        	high_GPIO(10); /* set the pin high */
 
         /*ws2811_led_t * leds = ledstring.channel[channel].leds;
         unsigned int i;
