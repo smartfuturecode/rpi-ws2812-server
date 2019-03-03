@@ -195,9 +195,9 @@ delay
 		<len>							#number of LEDs to blink starting at startled
 ```
 
-* `test` command set state of gpio
+* `gpio` command set state of gpio
 ```
-test  
+gpio  
     <gpio>,         	#name of gpio to switch 
     <state>        		#off(=0) or on(=1)
 ```
