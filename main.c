@@ -472,7 +472,7 @@ void gpio(char * args){
 		}*/
 	}
 
-	if (true/*valid gpio and state*/){
+	if (1/*valid gpio and state*/){
         //if (start<0 || start>=ledstring.channel[channel].count) start=0;
         //if (len<=0 || (start+len)>ledstring.channel[channel].count) len=ledstring.channel[channel].count-start;
 
