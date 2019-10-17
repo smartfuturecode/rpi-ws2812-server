@@ -107,8 +107,7 @@ rainbow
 fill  
     <channel>,          	#channel to fill leds with color (default 1)  
     <RRGGBB>,           	#color to fill (default FF0000)  
-    <start>,          		#at which led should we start (default is 0)  
-    <len>               	#number of leds to fill with the given color after start (default all leds)  
+    <sections>,        		#multiple sections ("<form_led>-<to_led>") septeratet by blank spaces. Please make sure, that the sections aren't overlaped by each other. (e.g. 1-3 6-7 8-8)
 	<OR,AND,XOR,NOT,=>	#bitwise operator to execute on OLD and NEW color, default = copies new color to output
 ```
 
