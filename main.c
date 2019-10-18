@@ -689,7 +689,7 @@ void rainbow(char * args) {
 //fill <channel>,<color>,<sections>,<OR,AND,XOR,NOT,=>
 void fill(char * args){
 	char value[MAX_VAL_LEN];
-	char * sections;
+	char sections[MAX_VAL_LEN];
    	char op=0;
 	int channel=0,start=0,end=-1;
 	unsigned int fill_color=0;
@@ -705,8 +705,7 @@ void fill(char * args){
 				printf("Invalid color\n");
 			}
 			if (*args!=0){
-				args = read_val(args, value, MAX_VAL_LEN);
-				sections = malloc(sizeof(value));
+				args = read_val(args, sections, MAX_VAL_LEN);
 				printf("raw: %s\n", sections);
 				printf("num-of-sections %d\n", read_num_of_sections(sections));
 				if (*args!=0){
@@ -732,7 +731,7 @@ void fill(char * args){
 	char val2[MAX_VAL_LEN];
 
 	for(j=0;j<num;j++){
-		sections = read_section(sections,val1,val2);
+		sections = &read_section(sections,val1,val2);
 		start = atoi(val1);
 		end = atoi(val2);
 		if (start<0 || start>=ledstring.channel[channel].count) start=0;        
@@ -762,7 +761,6 @@ void fill(char * args){
     }else{
         fprintf(stderr,"Invalid channel number, did you call setup and init?\n");
     }
-	free(sections);
 }
 
 //dims leds
