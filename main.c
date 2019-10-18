@@ -239,7 +239,7 @@ char * read_val(char * args, char * value, size_t size){
 char * read_section(char * args,int num, char * start, char * end){
 	int count=0;
     if (*args==':') args++;
-	while(num<count && *args!=0 && *args!=',') {
+	while(count<num && *args!=0 && *args!=',') {
 		if (*args==':') count++;
 		args++;
 	}
