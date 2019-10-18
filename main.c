@@ -267,7 +267,7 @@ int read_num_of_sections(char * args){
 	int number=0;
 	if (*args==',') args++;
 	while (*args!=0 && *args!=','){
-		if (*args=':') number++;
+		if (*args==':') number++;
 		args++;
 	}
 	return number+1; //+1 for the last section, which isn't closed with ':'
