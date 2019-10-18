@@ -235,6 +235,44 @@ char * read_val(char * args, char * value, size_t size){
 	return args;
 }
 
+//read a section from string
+char * read_section(char * args, char * start, char * end){
+    if (*args==':') args++;
+	while (*args!=0 && *args!='-' && *args!=':' && *args!=','){
+		if (*args!=' ' && *args!='\t'){ //skip space
+			*start=*args;
+			start++;
+		}
+		args++;
+	}
+	if(*args=='-'){
+		args++;
+		while (*args!=0 && *args!='-' && *args!=':' && *args!=','){
+			if (*args!=' ' && *args!='\t'){ //skip space
+				*end=*args;
+				end++;
+			}
+			args++;
+		}
+	} else {
+		end=start;
+	}
+	*start=0;
+	*end=0;
+	return args;
+}
+
+//read number sections from string
+int read_num_of_sections(char * args){
+	int number=0;
+	if (*args==',') args++;
+	while (*args!=0 && *args!=','){
+		if (*args=':') number++;
+		args++;
+	}
+	return number+1; //+1 for the last section, which isn't closed with ':'
+}
+
 //reads color from string, returns string + 6 or 8 characters
 //color_size = 3 (RGB format)  or 4 (RGBW format)
 char * read_color(char * args, unsigned int * out_color, unsigned int color_size){
@@ -648,7 +686,7 @@ void rainbow(char * args) {
 }
 
 //fills leds with certain color
-//fill <channel>,<color>,<start>,<len>,<OR,AND,XOR,NOT,=>
+//fill <channel>,<color>,<sections>,<OR,AND,XOR,NOT,=>
 void fill(char * args){
 	char value[MAX_VAL_LEN];
     char op=0;
@@ -667,18 +705,16 @@ void fill(char * args){
 			}
 			if (*args!=0){
 				args = read_val(args, value, MAX_VAL_LEN);
-				start = atoi(value);
+				sections = value;
+				printf("raw: %s,%d,%d,%d,%d\n", sections);
+				printf("num-of-sections %d\n", read_num_of_sections(sections));
 				if (*args!=0){
 					args = read_val(args, value, MAX_VAL_LEN);
-					len = atoi(value);
-                    if (*args!=0){
-                        args = read_val(args, value, MAX_VAL_LEN);
-                        if (strcmp(value, "OR")==0) op=1;
-                        else if (strcmp(value, "AND")==0) op=2;
-                        else if (strcmp(value, "XOR")==0) op=3;
-                        else if (strcmp(value, "NOT")==0) op=4;
-                        else if (strcmp(value, "=")==0) op=0;
-                    }
+					if (strcmp(value, "OR")==0) op=1;
+					else if (strcmp(value, "AND")==0) op=2;
+					else if (strcmp(value, "XOR")==0) op=3;
+					else if (strcmp(value, "NOT")==0) op=4;
+					else if (strcmp(value, "=")==0) op=0;
 				}
 			}
 		}
