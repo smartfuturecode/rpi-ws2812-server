@@ -721,8 +721,6 @@ void fill(char * args){
 	}
 	
 	if (is_valid_channel_number(channel)){
-        if (start<0 || start>=ledstring.channel[channel].count) start=0;        
-        if (len<=0 || (start+len)>ledstring.channel[channel].count) len=ledstring.channel[channel].count-start;
 
         if (debug) printf("fill %d,%d,%d,%d,%d\n", channel, fill_color, start, len,op);
         
@@ -736,6 +734,8 @@ void fill(char * args){
 		read_section(sections,val1,val2);
 		start = atoi(val1);
 		end = atoi(val2);
+		if (start<0 || start>=ledstring.channel[channel].count) start=0;        
+       		if (end<=0 || end>ledstring.channel[channel].count) end=ledstring.channel[channel].count-start;
 		printf("section no. %d from %d to %d\n", j, start, end);
 		unsigned int i;
 	        for (i=start;i<end;i++){
