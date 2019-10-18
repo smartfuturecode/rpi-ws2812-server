@@ -689,6 +689,7 @@ void rainbow(char * args) {
 //fill <channel>,<color>,<sections>,<OR,AND,XOR,NOT,=>
 void fill(char * args){
 	char value[MAX_VAL_LEN];
+	char sections[MAX_VAL_LEN];
     char op=0;
 	int channel=0,start=0,len=-1;
 	unsigned int fill_color=0;
