@@ -107,7 +107,7 @@ rainbow
 fill  
     <channel>,          	#channel to fill leds with color (default 1)  
     <RRGGBB>,           	#color to fill (default FF0000)  
-    <sections>,        		#multiple sections ("<form_led>-<to_led>") septeratet by blank spaces. Please make sure, that the sections aren't overlaped by each other. (e.g. 1-3 6-7 8-8)
+    <sections>,        		#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. Please make sure, that the sections aren't overlaped by each other. (e.g. 1-3:6-7:8:10-12)
 	<OR,AND,XOR,NOT,=>	#bitwise operator to execute on OLD and NEW color, default = copies new color to output
 ```
 
