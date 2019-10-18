@@ -731,7 +731,7 @@ void fill(char * args){
 	char val2[MAX_VAL_LEN];
 
 	for(j=0;j<num;j++){
-		read_section(sections,val1,val2);
+		sections = read_section(sections,val1,val2);
 		start = atoi(val1);
 		end = atoi(val2);
 		if (start<0 || start>=ledstring.channel[channel].count) start=0;        
