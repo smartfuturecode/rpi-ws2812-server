@@ -690,8 +690,8 @@ void rainbow(char * args) {
 void fill(char * args){
 	char value[MAX_VAL_LEN];
 	char sections[MAX_VAL_LEN];
-    char op=0;
-	int channel=0,start=0,len=-1;
+   	char op=0;
+	int channel=0,start=0,end=-1;
 	unsigned int fill_color=0;
     
 	if (args!=NULL){
@@ -705,9 +705,9 @@ void fill(char * args){
 				printf("Invalid color\n");
 			}
 			if (*args!=0){
-				args = read_val(args, value, MAX_VAL_LEN);
-				printf("raw: %s\n", value);
-				printf("num-of-sections %d\n", read_num_of_sections(value));
+				args = read_val(args, sections, MAX_VAL_LEN);
+				printf("raw: %s\n", sections);
+				printf("num-of-sections %d\n", read_num_of_sections(sections));
 				if (*args!=0){
 					args = read_val(args, value, MAX_VAL_LEN);
 					if (strcmp(value, "OR")==0) op=1;
@@ -727,26 +727,37 @@ void fill(char * args){
         if (debug) printf("fill %d,%d,%d,%d,%d\n", channel, fill_color, start, len,op);
         
         ws2811_led_t * leds = ledstring.channel[channel].leds;
-        unsigned int i;
-        for (i=start;i<start+len;i++){
-            switch (op){
-                case 0:
-                    leds[i].color=fill_color;
-                    break;
-                case 1:
-                    leds[i].color|=fill_color;
-                    break;
-                case 2:
-                    leds[i].color&=fill_color;
-                    break;
-                case 3:
-                    leds[i].color^=fill_color;
-                    break;
-                case 4:
-                    leds[i].color=~leds[i].color;
-                    break;
-            }
-        }
+	unsigned int j;
+	int num = read_num_of_sections(sections);
+	char val1[MAX_VAL_LEN];
+	char val2[MAX_VAL_LEN];
+
+	for(j=0;j<num;j){
+		read_section(sections,val1,val2);
+		start = atoi(val1);
+		end = atoi(val2);
+		printf("section no. %d from %d to %d\n", j, start, end);
+		unsigned int i;
+	        for (i=start;i<end;i++){
+		    switch (op){
+			case 0:
+			    leds[i].color=fill_color;
+			    break;
+			case 1:
+			    leds[i].color|=fill_color;
+			    break;
+			case 2:
+			    leds[i].color&=fill_color;
+			    break;
+			case 3:
+			    leds[i].color^=fill_color;
+			    break;
+			case 4:
+			    leds[i].color=~leds[i].color;
+			    break;
+		    }
+        	}
+	}
     }else{
         fprintf(stderr,"Invalid channel number, did you call setup and init?\n");
     }
