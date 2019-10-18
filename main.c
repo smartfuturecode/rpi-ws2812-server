@@ -260,7 +260,7 @@ char * read_section(char * args,int num, char * start, char * end){
 			args++;
 		}
 	} else {
-		*end=*start;
+		end=*start;
 	}
 	*start=0;
 	*end=0;
