@@ -706,9 +706,8 @@ void fill(char * args){
 			}
 			if (*args!=0){
 				args = read_val(args, value, MAX_VAL_LEN);
-				sections = value;
-				printf("raw: %s,%d,%d,%d,%d\n", sections);
-				printf("num-of-sections %d\n", read_num_of_sections(sections));
+				printf("raw: %s,%d,%d,%d,%d\n", value);
+				printf("num-of-sections %d\n", read_num_of_sections(value));
 				if (*args!=0){
 					args = read_val(args, value, MAX_VAL_LEN);
 					if (strcmp(value, "OR")==0) op=1;
