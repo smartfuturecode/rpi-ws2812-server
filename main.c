@@ -730,7 +730,7 @@ void fill(char * args){
 	char val1[MAX_VAL_LEN];
 	char val2[MAX_VAL_LEN];
 
-	for(j=0;j<num;j){
+	for(j=0;j<num;j++){
 		read_section(sections,val1,val2);
 		start = atoi(val1);
 		end = atoi(val2);
