@@ -236,8 +236,13 @@ char * read_val(char * args, char * value, size_t size){
 }
 
 //read a section from string
-char * read_section(char * args, char * start, char * end){
+char * read_section(char * args,int num, char * start, char * end){
+	int count=0;
     if (*args==':') args++;
+	while(num<count && *args!=0 && *args!=',') {
+		if (*args==':') count++;
+		args++;
+	}
 	while (*args!=0 && *args!='-' && *args!=':' && *args!=','){
 		if (*args!=' ' && *args!='\t'){ //skip space
 			*start=*args;
@@ -731,7 +736,7 @@ void fill(char * args){
 	char val2[MAX_VAL_LEN];
 
 	for(j=0;j<num;j++){
-		sections = &read_section(sections,val1,val2);
+		read_section(sections,j,val1,val2);
 		start = atoi(val1);
 		end = atoi(val2);
 		if (start<0 || start>=ledstring.channel[channel].count) start=0;        
