@@ -722,7 +722,7 @@ void fill(char * args){
 	
 	if (is_valid_channel_number(channel)){
 
-        if (debug) printf("fill %d,%d,%d,%d,%d\n", channel, fill_color, start, len,op);
+        if (debug) printf("fill %d,%d,%s,%d\n", channel, fill_color, sections,op);
         
         ws2811_led_t * leds = ledstring.channel[channel].leds;
 	unsigned int j;
