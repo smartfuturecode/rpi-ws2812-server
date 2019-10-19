@@ -738,7 +738,7 @@ void fill(char * args){
 	for(j=0;j<num;j++){
 		read_section(sections,j,val1,val2);
 		start = atoi(val1);
-		end = atoi(val2);
+		end = end==-1?start:atoi(val2);
 		if (start<0 || start>=ledstring.channel[channel].count) start=0;        
        		if (end<=0 || end>ledstring.channel[channel].count) end=ledstring.channel[channel].count-start;
 		printf("section no. %d from %d to %d\n", j, start, end);
