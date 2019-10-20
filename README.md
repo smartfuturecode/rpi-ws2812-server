@@ -28,7 +28,7 @@ also in `/boot/config.txt` you comment out the `audio=on` parameter:
 ```
 # Hardware
 ![gpio](gpio-numbers-pi2.png)
-Default setup: Leds to GPIO 18 = Pin 12 (see "setup" comand)
+Default setup: Leds to GPIO 18 = Pin 12 (see `setup` comand)
 
 # Testing
 Connect your LEDs to the PWM output of the Raspberry Pi and start the program:
