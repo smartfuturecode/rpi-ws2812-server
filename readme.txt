@@ -26,6 +26,10 @@ On the raspberry you open a terminal window and type following commands:
 * make
 * sudo chmod +x ws2812svr
 
+#Hardware
+![gpiost](https://www.raspberrypi.org/documentation/usage/gpio/images/gpio-numbers-pi2.png)
+Default setting: Leds to pin GPIO 18 = Pin 12 (see "setup" comand)
+
 #Testing
 Hook up your LEDs to the PWM output of the Raspberry Pi.
 sudo ./ws2812svr
