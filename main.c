@@ -891,7 +891,7 @@ void blink (char * args){
     char value[MAX_VAL_LEN];
 	char sections[MAX_VAL_LEN] = "0-50000";
 	int channel=0, color1=0, color2=0xFFFFFF,delay=1000, count=10;
-	unsigned int start=0, len=0;
+	unsigned int start=0, end=0;
     
     if (is_valid_channel_number(channel)){
         len = ledstring.channel[channel].count;;
