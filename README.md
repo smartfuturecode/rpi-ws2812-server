@@ -26,6 +26,9 @@ also in `/boot/config.txt` you comment out the `audio=on` parameter:
 # Enable audio (loads snd_bcm2835)
 #dtparam=audio=on
 ```
+# Hardware
+![gpio](https://www.raspberrypi.org/documentation/usage/gpio/images/gpio-numbers-pi2.png)
+Default setup: Leds to GPIO 18 = Pin 12 (see "setup" comand)
 
 # Testing
 Connect your LEDs to the PWM output of the Raspberry Pi and start the program:
@@ -107,7 +110,7 @@ rainbow
 fill  
     <channel>,          	#channel to fill leds with color (default 1)  
     <RRGGBB>,           	#color to fill (default FF0000)  
-    <sections>,        		#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. Please make sure, that the sections aren't overlaped by each other. (e.g. 1-3:6-7:8:10-12)
+    <sections>,        		#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. (e.g. 1-3:6-7:8:10-12)
 	<OR,AND,XOR,NOT,=>	#bitwise operator to execute on OLD and NEW color, default = copies new color to output
 ```
 
@@ -190,8 +193,7 @@ delay
 		<color2>,					#second color
 		<delay>,					#delay in ms between change from color1 to color2
 		<blink_count>,					#number of changes between color1 and color2
-		<startled>,					#start at this led position
-		<len>						#number of LEDs to blink starting at startled
+		<sections>,        		#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. (e.g. 1-3:6-7:8:10-12)
 ```
 
 * `gpio` command set state of gpio
