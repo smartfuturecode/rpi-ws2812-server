@@ -937,7 +937,7 @@ void blink (char * args){
 
         if (delay<=0) delay=100;
         
-        if (debug) printf("blink %d, %d, %d, %d, %d, %d, %d\n", channel, color1, color2, delay, count, start, len);
+        if (debug) printf("blink %d, %d, %d, %d, %d, %s\n", channel, color1, color2, delay, count, sections);
         
         ws2811_led_t * leds = ledstring.channel[channel].leds;
 	int num = read_num_of_sections(sections);
