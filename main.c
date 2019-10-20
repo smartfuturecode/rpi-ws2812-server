@@ -709,8 +709,6 @@ void fill(char * args){
 			}
 			if (*args!=0){
 				args = read_val(args, sections, MAX_VAL_LEN);
-				printf("raw: %s\n", sections);
-				printf("num-of-sections %d\n", read_num_of_sections(sections));
 				if (*args!=0){
 					args = read_val(args, value, MAX_VAL_LEN);
 					if (strcmp(value, "OR")==0) op=1;
@@ -740,7 +738,6 @@ void fill(char * args){
 		if (start<0 || start>=ledstring.channel[channel].count) start=0;
 		if(end<start) end=start;
        		if (end>ledstring.channel[channel].count) end=ledstring.channel[channel].count-start;
-		printf("section no. %d from %d to %d\n", j, start, end);
 		unsigned int i;
 	        for (i=start;i<=end;i++){
 		    switch (op){
@@ -924,8 +921,6 @@ void blink (char * args){
                         count = atoi(value);
 			if (*args!=0){
 				args = read_val(args, sections, MAX_VAL_LEN);
-				printf("raw: %s\n", sections);
-				printf("num-of-sections %d\n", read_num_of_sections(sections));
                         }
                     }
                 }
@@ -952,7 +947,6 @@ void blink (char * args){
 		if (start<0 || start>=ledstring.channel[channel].count) start=0;
 		if(end<start) end=start;
 		if (end>ledstring.channel[channel].count) end=ledstring.channel[channel].count-start;
-		printf("section no. %d from %d to %d\n", j, start, end);
 	            for (i=start;i<=end;i++){
 			if ((blinks%2)==0) {
 						leds[i].color=color1;
