@@ -889,6 +889,7 @@ void fade (char * args){
 //blink <channel>,<color1>,<color2>,<delay>,<blink_count>,<startled>,<len>
 void blink (char * args){
     char value[MAX_VAL_LEN];
+	char sections[MAX_VAL_LEN] = "0-50000";
 	int channel=0, color1=0, color2=0xFFFFFF,delay=1000, count=10;
 	unsigned int start=0, len=0;
     
@@ -921,13 +922,10 @@ void blink (char * args){
                     if(*args!=0){
                         args = read_val(args, value, MAX_VAL_LEN);
                         count = atoi(value);
-                        if(*args!=0){
-                            args = read_val(args, value, MAX_VAL_LEN);
-                            start=atoi(value);
-                            if (*args!=0){
-                                args = read_val(args, value, MAX_VAL_LEN);
-                                len = atoi(value);
-                            }
+			if (*args!=0){
+				args = read_val(args, sections, MAX_VAL_LEN);
+				printf("raw: %s\n", sections);
+				printf("num-of-sections %d\n", read_num_of_sections(sections));
                         }
                     }
                 }
@@ -945,15 +943,27 @@ void blink (char * args){
         if (debug) printf("blink %d, %d, %d, %d, %d, %d, %d\n", channel, color1, color2, delay, count, start, len);
         
         ws2811_led_t * leds = ledstring.channel[channel].leds;
-        int i,blinks;
+	int num = read_num_of_sections(sections);
+	char val1[MAX_VAL_LEN];
+	char val2[MAX_VAL_LEN];
+        int i,j,blinks;
         for (blinks=0; blinks<count;blinks++){
-            for (i=start;i<start+len;i++){
-                if ((blinks%2)==0) {
-					leds[i].color=color1;
-				}else{
-					leds[i].color=color2;
-				}
-            }
+		for(j=0;j<num;j++){
+		read_section(sections,j,val1,val2);
+		start = atoi(val1);
+		end = atoi(val2);
+		if (start<0 || start>=ledstring.channel[channel].count) start=0;
+		if(end<start) end=start;
+		if (end>ledstring.channel[channel].count) end=ledstring.channel[channel].count-start;
+		printf("section no. %d from %d to %d\n", j, start, end);
+	            for (i=start;i<=end;i++){
+			if ((blinks%2)==0) {
+						leds[i].color=color1;
+					}else{
+						leds[i].color=color2;
+					}
+		    }
+		}
             ws2811_render(&ledstring);
             usleep(delay * 1000);
         } 
