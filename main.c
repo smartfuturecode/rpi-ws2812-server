@@ -935,9 +935,6 @@ void blink (char * args){
             
 	if (is_valid_channel_number(channel)){
 
-        if (start>=ledstring.channel[channel].count) start=0;
-        if ((start+len)>ledstring.channel[channel].count) len=ledstring.channel[channel].count-start;
-        
         if (delay<=0) delay=100;
         
         if (debug) printf("blink %d, %d, %d, %d, %d, %d, %d\n", channel, color1, color2, delay, count, start, len);
