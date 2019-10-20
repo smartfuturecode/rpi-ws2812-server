@@ -894,13 +894,13 @@ void blink (char * args){
 	unsigned int start=0, end=0;
     
     if (is_valid_channel_number(channel)){
-        len = ledstring.channel[channel].count;;
+        end = ledstring.channel[channel].count;;
     }
     if (args!=NULL){
         args = read_val(args, value, MAX_VAL_LEN);
 		channel = atoi(value)-1;
         if (is_valid_channel_number(channel)){
-            len = ledstring.channel[channel].count;;
+            end = ledstring.channel[channel].count;;
         }
         if (*args!=0){
             args = read_val(args, value, MAX_VAL_LEN);
