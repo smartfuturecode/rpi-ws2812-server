@@ -692,7 +692,7 @@ void rainbow(char * args) {
 //fill <channel>,<color>,<sections>,<OR,AND,XOR,NOT,=>
 void fill(char * args){
 	char value[MAX_VAL_LEN];
-	char sections[MAX_VAL_LEN];
+	char sections[MAX_VAL_LEN] = "0-50000";
    	char op=0;
 	int channel=0,start=0,end=-1;
 	unsigned int fill_color=0;
@@ -742,7 +742,7 @@ void fill(char * args){
        		if (end>ledstring.channel[channel].count) end=ledstring.channel[channel].count-start;
 		printf("section no. %d from %d to %d\n", j, start, end);
 		unsigned int i;
-	        for (i=start;i<end;i++){
+	        for (i=start;i<=end;i++){
 		    switch (op){
 			case 0:
 			    leds[i].color=fill_color;
