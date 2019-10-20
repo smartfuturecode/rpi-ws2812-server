@@ -27,7 +27,7 @@ also in `/boot/config.txt` you comment out the `audio=on` parameter:
 #dtparam=audio=on
 ```
 # Hardware
-![gpio](https://www.raspberrypi.org/documentation/usage/gpio/images/gpio-numbers-pi2.png)
+![gpio](gpio-numbers-pi2.png)
 Default setup: Leds to GPIO 18 = Pin 12 (see "setup" comand)
 
 # Testing
