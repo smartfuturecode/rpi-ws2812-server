@@ -789,13 +789,11 @@ void brightness(char * args){
 	if (is_valid_channel_number(channel)){
         if (brightness<0 || brightness>0xFF) brightness=255;
 
-        if (start>=ledstring.channel[channel].count) start=0;
-        if ((start+len)>ledstring.channel[channel].count) len=ledstring.channel[channel].count-start;
-
         if (debug) printf("Changing brightness %d, %d, %s\n", channel, brightness, sections);
 
         ws2811_led_t * leds = ledstring.channel[channel].leds;
         unsigned int i,j;
+				int num = read_num_of_sections(sections);
 				char val1[MAX_VAL_LEN];
 				char val2[MAX_VAL_LEN];
 				for(j=0;j<num;j++){
