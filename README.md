@@ -26,6 +26,15 @@ also in `/boot/config.txt` you comment out the `audio=on` parameter:
 # Enable audio (loads snd_bcm2835)
 #dtparam=audio=on
 ```
+if you want the software to auto run after every poweron run
+`sudo nano /etc/rc.local` and add the following to the file:
+```
+# autorun hcu-artnet-server and ws2812svr
+sudo <INSTALL_DIR>/ws2812sv -tcp 9998
+node <INSTALL_DIR>/hcu-artnet-server/main.c
+```
+replace <INSTALL_DIR> with your own dir (e.g /home/pi/git) 
+
 # Hardware
 ![gpio](gpio-numbers-pi2.png)
 Default setup: Leds to GPIO 18 = Pin 12 (see `setup` comand)
