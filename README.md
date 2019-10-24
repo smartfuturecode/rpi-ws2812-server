@@ -123,10 +123,9 @@ delay
 * `brightness` command changes the brightness of a single or multiple leds without changing the actual color value
 ```
 	brightness 
-		<channel>,		 #channel number to change brightness (default 1)
+		<channel>,		#channel number to change brightness (default 1)
 		<brightness>,	 	#brightness to set (0-255, default 255)
-		<start>,		 #start at this led number (default 0)
-		<len>			 #number of leds to change starting at start (default led count of channel)
+		<sections>,        	#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. (e.g. 1-3:6-7:8:10-12)
 ```
 
 * `fade` command changes the brightness over time
@@ -193,7 +192,7 @@ delay
 		<color2>,					#second color
 		<delay>,					#delay in ms between change from color1 to color2
 		<blink_count>,					#number of changes between color1 and color2
-		<sections>,        		#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. (e.g. 1-3:6-7:8:10-12)
+		<sections>,        				#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. (e.g. 1-3:6-7:8:10-12)
 ```
 
 * `gpio` command set state of gpio
