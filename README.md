@@ -4,11 +4,13 @@ This is a small program for driving the WS281x (a.k.a. [NeoPixel](https://www.sp
 # Installation
 On the raspberry you open a terminal window and type following commands:
 * `sudo apt-get update`
-* `sudo apt-get install gcc make git libjpeg-dev libpng-dev wiringpi`
+* `sudo apt-get install gcc make git libjpeg-dev libpng-dev wiringpi npm`
 * `git clone https://github.com/smartfuturecode/rpi-ws2812-server.git`
 * `cd rpi-ws2812-server`
 * `make`
 * `sudo chmod +x ws2812svr`
+* `cd hcu-artnet-server`
+* `npm install`
 
 Newer versions require libjpeg-dev and libpng-dev for reading PNG and JPEG images.
 If you don't want to use JPEG or PNG you can disable this using:
@@ -247,6 +249,8 @@ function send_to_leds ($data){
 ```
 
 # Command line parameters
+* `sudo ./ws2812svr -artnet`
+  Listens for artnet-clients to connect.
 * `sudo ./ws2812svr -tcp 9999`
   Listens for clients to connect to port 9999 (default).
 * `sudo ./ws2812svr -f text_file.txt`
