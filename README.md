@@ -28,12 +28,13 @@ also in `/boot/config.txt` you comment out the `audio=on` parameter:
 # Enable audio (loads snd_bcm2835)
 #dtparam=audio=on
 ```
-if you want the software to auto run after every poweron run
+# Autostart (artnet start not yet working)
+If you want the software to auto run after every poweron run
 `sudo nano /etc/rc.local` and add the following to the file to the start of the file:
 ```
 # autorun hcu-artnet-server and ws2812svr
 sudo <INSTALL_DIR>/ws2812svr -tcp 9998 &
-node <INSTALL_DIR>/hcu-artnet-server/main.c &
+node <INSTALL_DIR>/hcu-artnet-server/main.js &
 ```
 replace <INSTALL_DIR> with your own dir (e.g /home/pi/git/rpi-ws2812-server) 
 
