@@ -35,7 +35,7 @@ if you want the software to auto run after every poweron run
 sudo <INSTALL_DIR>/ws2812sv -tcp 9998
 node <INSTALL_DIR>/hcu-artnet-server/main.c
 ```
-replace <INSTALL_DIR> with your own dir (e.g /home/pi/git) 
+replace <INSTALL_DIR> with your own dir (e.g /home/pi/git/rpi-ws2812-server) 
 
 # Hardware
 ![gpio](gpio-numbers-pi2.png)
@@ -258,8 +258,6 @@ function send_to_leds ($data){
 ```
 
 # Command line parameters
-* `sudo ./ws2812svr -artnet`
-  Listens for artnet-clients to connect.
 * `sudo ./ws2812svr -tcp 9999`
   Listens for clients to connect to port 9999 (default).
 * `sudo ./ws2812svr -f text_file.txt`
