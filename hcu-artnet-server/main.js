@@ -4,10 +4,10 @@ var dmxlib=require('dmxnet');
 var client = new net.Socket();
 
 var dmxnet = new dmxlib.dmxnet({
-  verbose: 1, //Verbosity, default 0
+  verbose: 0, //Verbosity, default 0
   oem: 0, //OEM Code from artisticlicense, default to dmxnet OEM.
   sName: "HafenCity", // 17 char long node description, default to "dmxnet"
-  lName: "ArtNet Übersetzer zu TCP für HCU-Licht" // 63 char long node description, default to "dmxnet - OpenSource ArtNet Transceiver"
+  lName: "HafenCity Universität - ArtNet to TCP translator" // 63 char long node description, default to "dmxnet - OpenSource ArtNet Transceiver"
 });
 
 var receiver=dmxnet.newReceiver({
@@ -35,6 +35,7 @@ client.connect(9998, '192.168.178.30', function() {
   });
 
 }).on('error', function(err) {
+	console.log('Connection Error');
 });
 
 client.on('close', function() {
