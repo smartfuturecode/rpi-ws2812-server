@@ -1848,7 +1848,7 @@ int main(int argc, char *argv[]){
             }
             mode = MODE_TCP;
         }else if (strcmp(argv[arg_idx], "-artnet")==0){ //open up tcp ip port and read commands from there
-		int port = 9998
+		int port = 9998;
 		system("node hcu-artnet-server/main.js &");
 		printf("Listening on %d.\n", port);
 		start_tcpip(port);
