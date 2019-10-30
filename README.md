@@ -33,8 +33,7 @@ If you want the software to auto run after every poweron run
 `sudo nano /etc/rc.local` and add the following to the file to the start of the file:
 ```
 # autorun hcu-artnet-server and ws2812svr
-sudo <INSTALL_DIR>/ws2812svr -tcp 9998 &
-node <INSTALL_DIR>/hcu-artnet-server/main.js &
+sudo <INSTALL_DIR>/ws2812svr -artnet &
 ```
 replace <INSTALL_DIR> with your own dir (e.g /home/pi/git/rpi-ws2812-server) 
 
@@ -261,6 +260,8 @@ function send_to_leds ($data){
 # Command line parameters
 * `sudo ./ws2812svr -tcp 9999`
   Listens for clients to connect to port 9999 (default).
+* `sudo ./ws2812svr -artnet`
+Listens for artnet clients to connect.
 * `sudo ./ws2812svr -f text_file.txt`
   Loads commands from text_file.txt.
 * `sudo ./ws2812svr -p /dev/ws281x`
