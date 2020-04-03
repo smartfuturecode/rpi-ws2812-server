@@ -107,6 +107,7 @@ int       command_index;      //current position
 int       command_line_size;  //max bytes in command line
 int       exit_program=0;     //set to 1 to exit the program
 int       mode;               //mode we operate in (TCP, named pipe, file, stdin)
+int 			port=0;
 do_loop   loops[MAX_LOOPS]={0};      //positions of 'do' in file loop, max 32 recursive loops
 int       loop_index=0;       //current loop index
 int       debug=0;            //set to 1 to enable debug output
@@ -2136,7 +2137,7 @@ void tcp_wait_connection (){
 }
 
 //sets up sockets
-void start_tcpip(int port){
+void start_tcpip(){
 
      sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
      if (sockfd < 0) {
@@ -2194,7 +2195,7 @@ void load_config_file(char * filename){
 			}
 		}else if (strcmp(cfg, "port")==0 && val!=NULL){
 			if (mode==MODE_TCP){
-				int port = atoi(val);
+				port = atoi(val);
 				if (port==0) port=9999;
 				if (debug) printf("Using TCP port %d\n", port);
 			}
@@ -2247,7 +2248,6 @@ int main(int argc, char *argv[]){
     mode = MODE_STDIN;
 
 	int arg_idx=1;
-	int port=0;
 	while (argc>arg_idx){
         if (strcmp(argv[arg_idx], "-p")==0){ //use a named pipe, creates a file (by default in /dev/ws281x) which you can write commands to: echo "command..." > /dev/ws281x
             if (argc>arg_idx+1){
@@ -2330,7 +2330,7 @@ int main(int argc, char *argv[]){
 		initialize_cmd=NULL;
 	}
 
-	if (mode==MODE_TCP) start_tcpip(port);
+	if (mode==MODE_TCP) start_tcpip();
 
 	while (exit_program==0) {
         if (mode==MODE_TCP){
