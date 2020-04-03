@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_PATH=$(dirname "$0")
-node ${SCRIPT_PATH}/main.js
+node /usr/local/etc/hcu-artnet-server.js

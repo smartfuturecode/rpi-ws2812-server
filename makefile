@@ -61,7 +61,8 @@ install: ws2812svr
 	cp -n ws2812svr.conf /etc/ws2812svr.conf
 	cp ws2812svr /usr/local/bin
 	cp hcuartnetserver.service  /etc/systemd/system/hcuartnetserver.service
-	ln -s hcu-artnet-server/run.sh /usr/local/bin/hcu-artnet-server
+	cp hcu-artnet-server/main.js /usr/local/etc/hcu-artnet-server.js
+	ln hcu-artnet-server/run.sh /usr/local/bin/hcu-artnet-server
 	systemctl daemon-reload
 	-systemctl stop ws2812svr.service
 	systemctl enable ws2812svr.service
