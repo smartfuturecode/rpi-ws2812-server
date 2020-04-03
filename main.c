@@ -34,6 +34,10 @@
 //#define USE_JPEG 1
 //#define USE_PNG 1
 
+#ifdef USE_WIRINGPI
+#include <wiringPi.h>
+#endif
+
 #ifdef USE_JPEG
 	#include "jpeglib.h"
 	#include <setjmp.h>
