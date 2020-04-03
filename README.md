@@ -223,7 +223,7 @@ delay
 * `gpio` command set state of gpio
 ```
 gpio  
-    <pin>,         	#gpio number (wiringPi: https://pinout.xyz/pinout/wiringpi)
+    <pin>,         	#gpio number ([wiringPi](https://pinout.xyz/pinout/wiringpi))
     <state>        	#state could be 0 (=off) or 1(=on)
 ```
 
@@ -261,14 +261,15 @@ Try this as an example for a 300 LED string:
 * `chaser` makes a chaser light
 ```
 	chaser
-		<channel>,						#channel number to use
-		<duration>,						#max number of seconds the event may take in seconds (default 10) use 0 to make chaser run forever
+		<channel>,					#channel number to use
+		<duration>,					#max number of seconds the event may take in seconds (default 10) use 0 to make chaser run forever
 		<color>,						#color 000000-FFFFFF to use for chasing leds
-		<direction>,					#direction 1 or 0 to indicate forward/backwards direction of movement
+    <size>,             #number of leds that are used as chaser
+		<direction>,				#direction 1 or 0 to indicate forward/backwards direction of movement
 		<delay>,						#delay between moving one pixel (milliseconds) default is 10ms
 		<start>,						#start effect at this led position
 		<len>,							#number of leds to change starting at start
-		<brightness>,					#brightness value of chasing leds (0-255) default is 255
+		<brightness>,				#brightness value of chasing leds (0-255) default is 255
 		<loops>							#max number of loops, use 0 to loop forever / duration time
 ```
 
