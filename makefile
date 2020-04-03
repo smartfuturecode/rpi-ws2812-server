@@ -24,10 +24,10 @@ dma.o: dma.c dma.h
 
 mailbox.o: mailbox.c mailbox.h
 	$(CC) -c $< -o $@
-	
+
 pwm.o: pwm.c pwm.h ws2811.h
 	$(CC) -c $< -o $@
-	
+
 pcm.o: pcm.c pcm.h
 	$(CC) -c $< -o $@
 
@@ -55,13 +55,28 @@ endif
 
 clean:
 	rm *.o
-	
+
 install: ws2812svr
 	cp ws2812svr.service  /etc/systemd/system/ws2812svr.service
 	cp -n ws2812svr.conf /etc/ws2812svr.conf
 	cp ws2812svr /usr/local/bin
+	cp hcuartnetserver.service  /etc/systemd/system/hcuartnetserver.service
+	ln -s hcu-artnet-server/run.sh /usr/local/bin/hcu-artnet-server
 	systemctl daemon-reload
 	-systemctl stop ws2812svr.service
 	systemctl enable ws2812svr.service
 	systemctl start ws2812svr.service
-	
+	-systemctl stop hcuartnetserver.service
+	systemctl enable hcuartnetserver.service
+	systemctl start hcuartnetserver.service
+
+uninstall: ws2812svr
+	systemctl stop ws2812svr.service
+	systemctl disable ws2812svr.service
+	systemctl stop hcuartnetserver.service
+	systemctl disable hcuartnetserver.service
+	rm /usr/local/bin/hcu-artnet-server
+	rm  /etc/systemd/system/ws2812svr.service
+	rm /etc/ws2812svr.conf
+	rm /usr/local/bin/ws2812svr
+	systemctl daemon-reload

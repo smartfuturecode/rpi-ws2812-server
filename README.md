@@ -28,15 +28,6 @@ also in `/boot/config.txt` you comment out the `audio=on` parameter:
 # Enable audio (loads snd_bcm2835)
 #dtparam=audio=on
 ```
-# Autostart (artnet start not yet working)
-If you want the software to auto run after every poweron run
-`sudo nano /etc/rc.local` and add the following to the file to the start of the file:
-```
-# autorun hcu-artnet-server and ws2812svr
-sudo <INSTALL_DIR>/ws2812svr -artnet &
-```
-replace <INSTALL_DIR> with your own dir (e.g /home/pi/git/rpi-ws2812-server)
-
 # Hardware
 ![gpio](gpio-numbers-pi2.png)
 Default setup: Leds to GPIO 18 = Pin 12 (see `setup` comand)
@@ -405,8 +396,6 @@ function send_to_leds ($data){
 # Command line parameters
 * `sudo ./ws2812svr -tcp 9999`
   Listens for clients to connect to port 9999 (default).
-* `sudo ./ws2812svr -artnet`
-Listens for artnet clients to connect.
 * `sudo ./ws2812svr -f text_file.txt`
   Loads commands from text_file.txt.
 * `sudo ./ws2812svr -p /dev/ws281x`
@@ -416,6 +405,9 @@ Listens for artnet clients to connect.
 * `sudo ./ws2812svr -c /etc/ws2812svr.conf`
   Loads with settings from /etc/ws2812svr.conf
 
+# Run Art-Net
+First start ws2812sv listening on tcp port 9999. Then run `run.sh` in located in subfolder hcu-artnet-server
+
 # Running as a service
 To run as service run make install after compilation and adjust the config file in /etc/ws2812svr.conf
 ```
@@ -423,7 +415,7 @@ make
 sudo make install
 ```
 
-After installing service it will run by default in TCP mode on port 9999, if you want to change this you must edit the config file:
+After installing service it will run the artnet-bridge that connects to ws2812svr. ws2812svr runs by default in TCP mode on port 9999, if you want to change this you must edit the config file:
 ```
 sudo nano /etc/ws2812svr.conf
 ```
@@ -440,6 +432,7 @@ file=/home/pi/test.txt
 pipe=/dev/leds
 init=
 ```
+
 
 # Complicated animations
 If you need to create complicated animations I suggest to save the color values (each led 1 pixel) in a png or jpg image file and load this file with the readpng command.

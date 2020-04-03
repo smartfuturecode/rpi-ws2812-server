@@ -16,7 +16,8 @@ var receiver=dmxnet.newReceiver({
   net: 0, //Destination net, default 0
 });
 
-client.connect(9998, 'localhost', function() {
+client.connect(9999, 'localhost', function() {
+  console.log('TCP Connection opened');
     client.write('setup 1,24,3;init;');
   receiver.on('data', function(data) {
       /*console.log('on '
@@ -35,9 +36,10 @@ client.connect(9998, 'localhost', function() {
  });
 
 }).on('error', function(err) {
-	console.log('Connection Error');
+	console.log('TCP Connection Error');
 });
 
 client.on('close', function() {
-	console.log('Connection closed');
+	console.log('TCP Connection closed');
+  process.exit(1);
 });
