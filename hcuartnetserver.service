@@ -1,6 +1,6 @@
 [Unit]
 Description=HCU Art-Net Server
-After=network.target
+After=ws2812svr.service
 
 [Service]
 # Change this to match your install directory
