@@ -77,6 +77,7 @@ uninstall: ws2812svr
 	systemctl stop hcuartnetserver.service
 	systemctl disable hcuartnetserver.service
 	rm /usr/local/bin/hcu-artnet-server
+	rm /usr/local/etc/hcu-artnet-server.js
 	rm  /etc/systemd/system/ws2812svr.service
 	rm /etc/ws2812svr.conf
 	rm /usr/local/bin/ws2812svr
