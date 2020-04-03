@@ -27,13 +27,13 @@ port.on("open", () => {
 });
 
 client.connect(9998, '192.168.178.30', function() {
-    client.write('setup 1,18,3;init;');
+    client.write('setup 1,24,3;init;');
   receiver.on('data', function(data) {
       /*console.log('on '
             +(data[0]<16?'0':'')+data[0].toString(16)
             +(data[1]<16?'0':'')+data[1].toString(16)
             +(data[2]<16?'0':'')+data[2].toString(16));*/
-      for (var i = 0; i < 18; i++) {
+      for (var i = 0; i < 24; i++) {
         var led = i*3;
         client.write('fill 1,'
         +(data[led]<16?'0':'')+data[led].toString(16)
