@@ -57,7 +57,6 @@ clean:
 	rm *.o
 
 install: ws2812svr
-	npm install
 	cp ws2812svr.service  /etc/systemd/system/ws2812svr.service
 	cp -n ws2812svr.conf /etc/ws2812svr.conf
 	cp ws2812svr /usr/local/bin
