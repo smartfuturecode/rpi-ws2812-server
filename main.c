@@ -35,10 +35,6 @@
 //#define USE_PNG 1
 
 #ifdef USE_JPEG
-#include <wiringPi.h>
-#endif
-
-#ifdef USE_JPEG
 	#include "jpeglib.h"
 	#include <setjmp.h>
 	//from https://github.com/LuaDist/libjpeg/blob/master/example.c
