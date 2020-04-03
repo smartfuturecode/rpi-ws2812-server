@@ -32,6 +32,7 @@ client.connect(9998, 'localhost', function() {
         +','+i+';');
       }
       client.write('render;');
+ });
 
 }).on('error', function(err) {
 	console.log('Connection Error');
