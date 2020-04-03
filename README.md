@@ -4,11 +4,13 @@ This is a small program for driving the WS281x (a.k.a. [NeoPixel](https://www.sp
 # Installation
 On the raspberry you open a terminal window and type following commands:
 * `sudo apt-get update`
-* `sudo apt-get install gcc make git libjpeg-dev libpng-dev wiringpi`
+* `sudo apt-get install gcc make git libjpeg-dev libpng-dev wiringpi npm`
 * `git clone https://github.com/smartfuturecode/rpi-ws2812-server.git`
 * `cd rpi-ws2812-server`
 * `make`
 * `sudo chmod +x ws2812svr`
+* `cd hcu-artnet-server`
+* `npm install`
 
 Newer versions require libjpeg-dev and libpng-dev for reading PNG and JPEG images.
 If you don't want to use JPEG or PNG you can disable this using:
@@ -26,6 +28,15 @@ also in `/boot/config.txt` you comment out the `audio=on` parameter:
 # Enable audio (loads snd_bcm2835)
 #dtparam=audio=on
 ```
+# Autostart (artnet start not yet working)
+If you want the software to auto run after every poweron run
+`sudo nano /etc/rc.local` and add the following to the file to the start of the file:
+```
+# autorun hcu-artnet-server and ws2812svr
+sudo <INSTALL_DIR>/ws2812svr -artnet &
+```
+replace <INSTALL_DIR> with your own dir (e.g /home/pi/git/rpi-ws2812-server) 
+
 # Hardware
 ![gpio](gpio-numbers-pi2.png)
 Default setup: Leds to GPIO 18 = Pin 12 (see `setup` comand)
@@ -249,6 +260,8 @@ function send_to_leds ($data){
 # Command line parameters
 * `sudo ./ws2812svr -tcp 9999`
   Listens for clients to connect to port 9999 (default).
+* `sudo ./ws2812svr -artnet`
+Listens for artnet clients to connect.
 * `sudo ./ws2812svr -f text_file.txt`
   Loads commands from text_file.txt.
 * `sudo ./ws2812svr -p /dev/ws281x`

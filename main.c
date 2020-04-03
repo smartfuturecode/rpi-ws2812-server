@@ -1847,6 +1847,12 @@ int main(int argc, char *argv[]){
                 exit(1);
             }
             mode = MODE_TCP;
+        }else if (strcmp(argv[arg_idx], "-artnet")==0){ //open up tcp ip port and read commands from there
+		int port = 9998;
+		system("sleep 5 && node hcu-artnet-server/main.js &");
+		printf("Listening on %d.\n", port);
+		start_tcpip(port);
+                mode = MODE_TCP;
         }else if (strcmp(argv[arg_idx], "-d")==0){ //turn debug on
 			debug=1;
 		}else if (strcmp(argv[arg_idx], "-i")==0){ //initialize command
@@ -1861,6 +1867,7 @@ int main(int argc, char *argv[]){
 			printf("-p <pipename>       creates a named pipe at location <pipename> where you can write command to.\n");
 			printf("-f <filename>       read commands from <filename>\n");
 			printf("-tcp <port>         listen for TCP connection to receive commands from.\n");
+			printf("-artnet             listen for Artnet connection to receive commands from.\n");
 			printf("-d                  turn debug output on.\n");
 			printf("-i \"<commands>\"       initialize with <commands> (seperate and end with ;)\n");
 			printf("-?                  show this message.\n");
