@@ -57,11 +57,11 @@ clean:
 	rm *.o
 
 install: ws2812svr
+	npm install
 	cp ws2812svr.service  /etc/systemd/system/ws2812svr.service
 	cp -n ws2812svr.conf /etc/ws2812svr.conf
 	cp ws2812svr /usr/local/bin
 	cp hcuartnetserver.service  /etc/systemd/system/hcuartnetserver.service
-	cp hcu-artnet-server/main.js /usr/local/etc/hcu-artnet-server.js
 	ln hcu-artnet-server/run.sh /usr/local/bin/hcu-artnet-server
 	systemctl daemon-reload
 	-systemctl stop ws2812svr.service
@@ -77,7 +77,6 @@ uninstall: ws2812svr
 	systemctl stop hcuartnetserver.service
 	systemctl disable hcuartnetserver.service
 	rm /usr/local/bin/hcu-artnet-server
-	rm /usr/local/etc/hcu-artnet-server.js
 	rm  /etc/systemd/system/ws2812svr.service
 	rm /etc/ws2812svr.conf
 	rm /usr/local/bin/ws2812svr

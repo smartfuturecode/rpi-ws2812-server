@@ -1,4 +1,3 @@
 #!/bin/bash
 
-SCRIPT_PATH=$(dirname "$0")
-node /usr/local/etc/hcu-artnet-server.js
+node /home/pi/git/rpi-ws2812-server/hcu-artnet-server/main.js

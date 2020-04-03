@@ -409,7 +409,7 @@ function send_to_leds ($data){
 First start ws2812sv listening on tcp port 9999. Then run `run.sh` in located in subfolder hcu-artnet-server
 
 # Running as a service
-To run as service run make install after compilation and adjust the config file in /etc/ws2812svr.conf
+To run as service run `nano hcu-artnet-server/run.sh` and change the path to <INSTALL_DIR>/hcu-artnet-server (default is /home/pi/git/rpi-ws2812-server/hcu-artnet-server). Run make install after compilation and adjust the config file in /etc/ws2812svr.conf
 ```
 make
 sudo make install
