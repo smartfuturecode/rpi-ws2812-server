@@ -61,6 +61,16 @@ For example make them all red:
 # Supported commands
 Here is a list of commands you can type or send to the program. All commands have optional comma seperated parameters. The parameters must be in the correct order!
 
+
+* `init` command must be called everytime the program is started after the setup command, this will initialize resource on the Pi according to the setup command
+```
+init  
+    init
+		<frequency>, 					#Frequency to use for communication to the LEDs, default 800000
+		<dma> 					        #dma channel number to use, default 10 be careful not to use any channels in use by the system as this may crash your SD card/OS
+									    #use cat /proc/device-tree/soc/dma@7e007000/brcm,dma-channel-mask to see which channels (bitmask) might be used by the OS
+```
+
 * `setup` command must be called everytime the program is started:
 ```
 setup  
@@ -113,7 +123,9 @@ rainbow
     <channel>,         #channel to fill with a gradient/rainbow (default 1)  
     <count>,           #number of times to repeat the rainbow in the channel (default 1)  
     <start_color>,     #color to start with value from 0-255 where 0 is red and 255 pink (default is 0)  
-    <end_color>        #color to end with value from 0-255 where 0 is red and 255 pink (default 255)  
+    <end_color>,       #color to end with value from 0-255 where 0 is red and 255 pink (default 255)
+	<start>,		   #start at this led position
+	<len>			   #number of leds to change
 ```
 
 * `fill` command fills number of leds with a color value
@@ -175,24 +187,26 @@ delay
 ```
     readjpg
     	<channel>,						#channel number to load pixels to
-		<FILE>,						#file location of the JPG without any "" cannot contain a ,
-		<start>,					#start position, start loading at this LED in channel (default 0)
-		<len>,						#load this ammount of pixel/LEDs	(default is channel count or led count)
-		<offset>,					#start at pixel offset in JPG file (default is 0)
-		<OR AND XOR NOT =>				#operator to use, use NOT to reverse image (default is =)
+		<FILE>,							#file location of the JPG without any "" cannot contain a ,
+		<start>,						#start position, start loading at this LED in channel (default 0)
+		<len>,							#load this ammount of pixel/LEDs	(default is channel count or led count)
+		<offset>,						#start at pixel offset in JPG file (default is 0)
+		<OR AND XOR NOT =>,				#operator to use, use NOT to reverse image (default is =)
+		<delay>							#optional argument the delay between rendering next scan line in the jpg file, if 0 only first line is loaded in to memory and no render performed. default 0
 ```
 
 * `readpng` command can read the pixels from a PNG file and fill them into the LEDs of a channel
 ```
 	readpng
-		<channel>,					#channel number to load pixels to
-		<FILE>,						#file location of the PNG file without any "" cannot contain a ,
+		<channel>,						#channel number to load pixels to
+		<FILE>,							#file location of the PNG file without any "" cannot contain a ,
 		<BACKCOLOR>,					#the color to use for background in case of a transparent image
-								#(default is the PNG image backcolor = P), if BACKCOLOR = W the alpha channel will be used for the W in RGBW LED strips
-		<start>,					#start position, start loading at this LED in channel (default 0)
-		<len>,						#load this ammount of pixel/LEDs	(default is channel count or led count)
-		<offset>,					#start at pixel offset in JPG file (default is 0)
-		<OR AND XOR =>					#operator to use, use NOT to reverse image (default is =)
+										#(default is the PNG image backcolor = P), if BACKCOLOR = W the alpha channel will be used for the W in RGBW LED strips
+		<start>,						#start position, start loading at this LED in channel (default 0)
+		<len>,							#load this ammount of pixel/LEDs	(default is channel count or led count)
+		<offset>,						#start at pixel offset in JPG file (default is 0)
+		<OR AND XOR =>,					#operator to use, use NOT to reverse image (default is =)
+		<delay>							#optional argument the delay between rendering next scan line in the png file, if 0 only first line is loaded in to memory and no render performed. default 0
 ```
 
 * `blink` command makes a group of leds blink between 2 given colors
@@ -213,6 +227,80 @@ gpio
     <state>        	#state could be 0 (=off) or 1(=on)
 ```
 
+* `random_fade_in_out` creates some kind of random blinking/fading leds effect
+```
+	random_fade_in_out
+		<channel>,						#channel number to use
+		<duration Sec>,					#total max duration of effect
+		<count>,						#max number of leds that will fade in or out at same time
+		<delay>,						# delay between changes in brightness
+		<step>,							#ammount of brightness to increase/decrease between delays
+		<inc_dec>,						#inc_dec = if 1 brightness will start at <brightness> and decrease to initial brightness of the led, else it will start low and go up
+		<brightness>,					#brightness to start with when blinking starts
+		<start>,						#start position
+		<len>,							#number of leds
+		<color>							#color to use for blinking leds
+
+Try this as an example for a 300 LED string:
+  fill 1,FFFFFF;
+  brightness 1,0;
+  random_fade_in_out 1,60,50,10,15,800;
+```
+
+* `color_change` slowly change all leds from one color to another
+```
+	color_change
+		<channel>,						#channel number to use
+		<start_color>,					#color to start with value from 0-255 where 0 is red and 255 pink (default is 0)
+		<stop_color>,					#color to end with value from 0-255 where 0 is red and 254 pink (default is 255)
+		<duration>,						#total number of ms event should take, default is 10 seconds
+		<start>,						#start effect at this led position
+		<len>							#number of leds to change starting at start
+```
+
+* `chaser` makes a chaser light
+```
+	chaser
+		<channel>,						#channel number to use
+		<duration>,						#max number of seconds the event may take in seconds (default 10) use 0 to make chaser run forever
+		<color>,						#color 000000-FFFFFF to use for chasing leds
+		<direction>,					#direction 1 or 0 to indicate forward/backwards direction of movement
+		<delay>,						#delay between moving one pixel (milliseconds) default is 10ms
+		<start>,						#start effect at this led position
+		<len>,							#number of leds to change starting at start
+		<brightness>,					#brightness value of chasing leds (0-255) default is 255
+		<loops>							#max number of loops, use 0 to loop forever / duration time
+```
+
+
+* `fly_in` fill entire string with given brightness level, moving leds from left/right untill all leds have brightness level or a given color
+```
+	fly_in
+		<channel>,						#channel number to use
+		<direction>,					#direction where to start with fly in effect (default 1)
+		<delay>,						#delay between moving pixels in ms (default 10ms)
+		<brightness>,					#final brightness of all leds default 255 or full ON
+		<start>,						#start effect at this led position
+		<len>,							#number of leds to change starting at start
+		<start_brightness>,				#at beginning give all leds this brightness value
+		<color>							#final color of the leds default is to use the current color
+	NOTICE: first fill entire strip with a color if leaving color argument default (use fill <channel>,<color>)
+```
+
+* `fly_out` fill entire string with given brightness level, moving leds from left/right untill all leds have brightness level or a given color
+```
+	fly_out
+		<channel>,						#channel number to use
+		<direction>,					#direction where to start with fly out effect (default 1)
+		<delay>,						#delay between moving pixels in ms (default 10ms)
+		<brightness>,					#brightness of led that is moving out default is 255
+		<start>,						#start effect at this led position
+		<len>,							#number of leds to change starting at start
+		<end_brightness>,				#brightness of all leds at end, default is 0 = OFF
+		<color>							#final color of the leds default is to use the current color
+	NOTICE: first fill entire strip with a color before calling this function (use fill <channel>,<color>)
+```
+
 # Special keywords
 You can add `do ... loop` to repeat commands when using a file or TCP connection.
 
@@ -222,7 +310,63 @@ do
    <enter commands here to repeat>    
 loop 10
 ```
-(Endless loops can be made by removing the '10')
+Endless loops can be made by removing the '10'.
+Inside a loop you can use {i} for the loop counter as function argument where i is the loop index (for loop inside loop)
+For example {0} will be automatically replace by 0,1,2,3,4:
+
+```
+do
+	fill 1, FF0000, {0}, 1
+loop 5
+render
+```
+
+is the same as the C-style code:
+
+```
+for (i=0;i<5;i++){
+	fill 1, FF0000, i, 1
+}
+```
+
+If you have nested loops you can increase the {0} to {1}, {2},...
+
+```
+do
+	do
+		fill 1, FF0000, {1}, 1
+	loop 5
+	render
+loop
+```
+
+Also possible to add a step value for the loop index to fill every "even" led
+
+```
+do
+	fill 1, FF0000, {0}, 1
+loop 5,2
+```
+
+is the same as:
+
+```
+for (i=0;i<5;i+=2){
+	fill 1, FF0000, i, 1
+}
+```
+
+To create an alternating pattern of colors use rotate commands in a loop.
+For a 300 LED string this will create alternating RED-YELLOW-GREEN-BLUE-PINK colors:
+```
+do
+    rotate 1,1,1,FF0000
+    rotate 1,1,1,FFFF00
+    rotate 1,1,1,00FF00
+    rotate 1,1,1,0000FF
+	rotate 1,1,1,FF00FF
+loop 60
+```
 
 For `do ... loop` to work from a TCP connection we must start a new thread.
 This thread will continue to execute the commands when the client disconnects from the TCP/IP connection.
@@ -249,7 +393,7 @@ Then run the php code from the webserver:
 
 ```PHP
 //create a rainbow for 10 leds on channel 1:  
-send_to_leds("setup channel_1_count=10;rainbow;brightness 1,32;");  
+send_to_leds("setup 1,10;init;brightness 1,32;");  
 function send_to_leds ($data){  
    $sock = fsockopen("127.0.0.1", 9999);  
    fwrite($sock, $data);  
@@ -268,3 +412,34 @@ Listens for artnet clients to connect.
   Creates a file called `/dev/ws281x` where you can write you commands to with any other programming language (do-loop not supported here).
 * `sudo ./ws2812svr -i "setup 1,4,5;init;"`
   Initializes with command setup 1,4,5  and command init
+* `sudo ./ws2812svr -c /etc/ws2812svr.conf`
+  Loads with settings from /etc/ws2812svr.conf
+
+# Running as a service
+To run as service run make install after compilation and adjust the config file in /etc/ws2812svr.conf
+```
+make
+sudo make install
+```
+
+After installing service it will run by default in TCP mode on port 9999, if you want to change this you must edit the config file:
+```
+sudo nano /etc/ws2812svr.conf
+```
+change the mode to:
+tcp for TCP mode (change the port= setting)
+file for file mode (change the file= setting for location of file)
+pipe for named pipe mode (change the pipe= setting for the location of the named pipe)
+mode must be first setting in the conf file!
+init setting can be used to initialize the led count and type fill color,...
+```
+mode=tcp
+port=9999
+file=/home/pi/test.txt
+pipe=/dev/leds
+init=
+```
+
+# Complicated animations
+If you need to create complicated animations I suggest to save the color values (each led 1 pixel) in a png or jpg image file and load this file with the readpng command.
+If you have a LED string of 300 leds best is to create an image file which is 300 pixels wide and X pixels high.
