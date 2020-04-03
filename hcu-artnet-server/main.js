@@ -1,9 +1,5 @@
 var net = require('net');
 var dmxlib=require('dmxnet');
-const SerialPort = require('serialport');
-const Readline = require('@serialport/parser-readline');
-const port = new SerialPort('/dev/ttyACM0', { baudRate: 9600 });
-const parser = port.pipe(new Readline({ delimiter: '\n' }));// Read the port data
 
 var client = new net.Socket();
 
@@ -18,12 +14,6 @@ var receiver=dmxnet.newReceiver({
   subnet: 0, //Destination subnet, default 0
   universe: 0, //Destination universe, default 0
   net: 0, //Destination net, default 0
-});
-
-port.on("open", () => {
-  console.log('serial port open');
-});parser.on('data', data =>{
-  console.log('got word from arduino:', data);
 });
 
 client.connect(9998, 'localhost', function() {
@@ -42,14 +32,6 @@ client.connect(9998, 'localhost', function() {
         +','+i+';');
       }
       client.write('render;');
-      for(var i=25;i < 40;i++){
-      port.write(i+'c'+data[i]+'w\n', (err) => {
-         if (err) {
-            return console.log('Error on write: ', err.message);
-         }
-         console.log('message written');
-      });
-  });
 
 }).on('error', function(err) {
 	console.log('Connection Error');
