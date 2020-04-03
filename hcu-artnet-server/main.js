@@ -26,7 +26,7 @@ port.on("open", () => {
   console.log('got word from arduino:', data);
 });
 
-client.connect(9998, '192.168.178.30', function() {
+client.connect(9998, 'localhost', function() {
     client.write('setup 1,24,3;init;');
   receiver.on('data', function(data) {
       /*console.log('on '
