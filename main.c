@@ -912,6 +912,7 @@ void blink (char * args){
 //generates a brightness gradient pattern of a color component or brightness level
 //gradient <channel>,<RGBWL>,<startlevel>,<endlevel>,<startled>,<len>
 void gradient (char * args){
+	char value[MAX_VAL_LEN];
 	int channel=0, startlevel=0,endlevel=255;
 	unsigned int start=0, len=0;
     char component='L'; //L is brightness level
