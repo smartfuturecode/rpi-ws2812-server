@@ -13,8 +13,8 @@ On the raspberry you open a terminal window and type following commands:
 * `npm install`
 
 Newer versions require libjpeg-dev and libpng-dev for reading PNG and JPEG images.
-If you don't want to use JPEG or PNG you can disable this using:
-* `make NO_JPEG=1 NO_PNG=1`
+If you don't want to use JPEG, PNG or WIRINGPI you can disable this using:
+* `make NO_JPEG=1 NO_PNG=1 NO_WIRINGPI=1`
 
 On newer Raspbian (Jessie) operating system the audio output is activated by default, you need to disable this:
 You can do this by blacklisting the sound module:
@@ -35,7 +35,7 @@ If you want the software to auto run after every poweron run
 # autorun hcu-artnet-server and ws2812svr
 sudo <INSTALL_DIR>/ws2812svr -artnet &
 ```
-replace <INSTALL_DIR> with your own dir (e.g /home/pi/git/rpi-ws2812-server) 
+replace <INSTALL_DIR> with your own dir (e.g /home/pi/git/rpi-ws2812-server)
 
 # Hardware
 ![gpio](gpio-numbers-pi2.png)
@@ -64,14 +64,14 @@ Here is a list of commands you can type or send to the program. All commands hav
 * `setup` command must be called everytime the program is started:
 ```
 setup  
-    setup 
+    setup
 		<channel>, 						#channel number
 		<led_count>, 					#number of leds in channel
 		<led_type>, 					#type of led (3 color or 4 color) default 0
 		<invert>, 						#invert output, default 0
 		<global_brightness>, 			#global brightness level for channel (0-255), default 255
 		<gpionum>						#GPIO output number, default 18 for more see 'GPIO usage' at this page: [https://github.com/jgarff/rpi_ws281x](https://github.com/jgarff/rpi_ws281x)
-	
+
 	Possible LED types:
 		0 WS2811_STRIP_RGB
 		1  WS2811_STRIP_RBG
@@ -133,7 +133,7 @@ delay
 
 * `brightness` command changes the brightness of a single or multiple leds without changing the actual color value
 ```
-	brightness 
+	brightness
 		<channel>,		#channel number to change brightness (default 1)
 		<brightness>,	 	#brightness to set (0-255, default 255)
 		<sections>,        	#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. (e.g. 1-3:6-7:8:10-12)
@@ -141,8 +141,8 @@ delay
 
 * `fade` command changes the brightness over time
 ```
-	fade 
-		<channel>,					 #channel to fade 
+	fade
+		<channel>,					 #channel to fade
 		<start_brightness>,				 #start brightness (default 0)
 		<end_brightness>,				 #end brightness (default 255)
 		<delay ms>,					 #delay in ms
@@ -155,7 +155,7 @@ delay
 ```
 	gradient
 		<channel>,					 #channel number to change
-		<RGBWL>,					 #which color component to change, R = red, G = green, B = blue, W = white and L = brightness level 
+		<RGBWL>,					 #which color component to change, R = red, G = green, B = blue, W = white and L = brightness level
 		<start_level>,					 #start at color level (0-255) default is 0
 		<end_level>, 					 #end at color level (0-255) default is 255
 		<start_led>,					 #start at led number (default is 0)
@@ -164,7 +164,7 @@ delay
 
 * `random` command can create a random color
 ```
-	random 
+	random
 		<channel>,					#channel number to change
 		<start>,					#start at this led
 		<len>,						#number of leds to fill with a random color, default is channel count
@@ -187,7 +187,7 @@ delay
 	readpng
 		<channel>,					#channel number to load pixels to
 		<FILE>,						#file location of the PNG file without any "" cannot contain a ,
-		<BACKCOLOR>,					#the color to use for background in case of a transparent image 
+		<BACKCOLOR>,					#the color to use for background in case of a transparent image
 								#(default is the PNG image backcolor = P), if BACKCOLOR = W the alpha channel will be used for the W in RGBW LED strips
 		<start>,					#start position, start loading at this LED in channel (default 0)
 		<len>,						#load this ammount of pixel/LEDs	(default is channel count or led count)
@@ -209,7 +209,7 @@ delay
 * `gpio` command set state of gpio
 ```
 gpio  
-    <pin>,         	#gpio number (wiringPi: https://pinout.xyz/pinout/wiringpi) 
+    <pin>,         	#gpio number (wiringPi: https://pinout.xyz/pinout/wiringpi)
     <state>        	#state could be 0 (=off) or 1(=on)
 ```
 
@@ -224,8 +224,8 @@ loop 10
 ```
 (Endless loops can be made by removing the '10')
 
-For `do ... loop` to work from a TCP connection we must start a new thread. 
-This thread will continue to execute the commands when the client disconnects from the TCP/IP connection. 
+For `do ... loop` to work from a TCP connection we must start a new thread.
+This thread will continue to execute the commands when the client disconnects from the TCP/IP connection.
 The thread will automatically stop executing the next time the client reconnects (ideal for webservers).
 
 For example:
