@@ -2,6 +2,8 @@ var net = require('net');
 var dmxlib=require('dmxnet');
 
 var client = new net.Socket();
+var gpio_laststate = [0, 0, 0];
+var gpio_wpi_num = [0, 2, 3];
 
 var dmxnet = new dmxlib.dmxnet({
   verbose: 0, //Verbosity, default 0
@@ -33,6 +35,18 @@ client.connect(9999, 'localhost', function() {
         +','+i+';');
       }
       client.write('render;');
+      for (var i = 0; i < 3; i++) {
+        var state = 0;
+        if (data[72+i]>100) {
+          state = 1;
+        }
+        if (state!=gpio_laststate[i]) {
+          client.write('gpio '
+          +gpio_wpi_num[i]+','
+          +state+';');
+          gpio_laststate[i] = state;
+        }
+      }
  });
 
 }).on('error', function(err) {
