@@ -211,9 +211,9 @@ delay
 		<sections>,        				#multiple sections ("<form_led>-<to_led>") or single leds ("<led>") septerated by colon. (e.g. 1-3:6-7:8:10-12)
 ```
 
-* `gpio` command set state of gpio
+* `gpio` command set state of gpio ([wiringPi pinnums](https://pinout.xyz/pinout/wiringpi)) ATTENTION: Changes slected gpio to output
 ```
-gpio  
+gpio
     <pin>,         	#gpio number ([wiringPi](https://pinout.xyz/pinout/wiringpi))
     <state>        	#state could be 0 (=off) or 1(=on)
 ```

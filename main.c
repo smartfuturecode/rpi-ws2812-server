@@ -542,14 +542,13 @@ void gpio(char * args){
 	}
 
 	if (state==0 || state ==1/*valid gpio */){
-		state = (state==0?1:0);
-           	if (debug) printf("gpio %d,%d\n", gpio, state);
+		if (debug) printf("gpio %d,%d\n", gpio, state);
+		pinMode (gpio, OUTPUT);
+    digitalWrite(gpio,state);
 
-        	digitalWrite(gpio,state);
-
-    }else{
-        fprintf(stderr,"Invalid gpio or state\n");
-    }
+  }else{
+      fprintf(stderr,"Invalid gpio or state\n");
+  }
 }
 
 //initializes wiringPi
@@ -2056,7 +2055,7 @@ void execute_command(char * command_line){
             printf("random <channel>,<start>,<len>,<RGBWL>\n");
             printf("blink <channel>,<color1>,<color2>,<delay>,<blink_count>,<startled>,<len>\n");
 			#ifdef USE_WIRINGPI
-            printf("gpio <pin>,<state>\n");
+            printf("gpio <pin>,<state> ATTENTION: Changes selected gpio to output!\n");
 			#endif
 			printf("random_fade_in_out <channel>,<duration Sec>,<count>,<delay>,<step>,<sync_delay>,<inc_dec>,<brightness>,<start>,<len>,<color>");
 			printf("chaser <channel>,<duration>,<color>,<count>,<direction>,<delay>,<start>,<len>,<brightness>,<loops>\n");
